@@ -1,0 +1,55 @@
+---
+import "../styles/app.css";
+import { LINKS, SITE } from "../lib/site";
+
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const {
+	title = SITE.title,
+	description = SITE.description,
+} = Astro.props;
+const pageTitle = title === SITE.title ? title : `${title} · ${SITE.title}`;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content={description} />
+		<meta name="theme-color" content="#FF4801" />
+		<meta property="og:title" content={pageTitle} />
+		<meta property="og:description" content={description} />
+		<meta property="og:type" content="website" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<title>{pageTitle}</title>
+	</head>
+	<body class="page">
+		<slot name="hero" />
+
+		<div class="page-shell">
+			<div class="page-rail-wrap">
+				<slot name="nav" />
+			</div>
+			<main class="page-main">
+				<slot />
+			</main>
+		</div>
+
+		<footer class="page-footer">
+			<div class="page-footer-inner">
+				<span>{SITE.title}</span>
+				<span class="page-footer-dot" aria-hidden="true">·</span>
+				<span>Built on Cloudflare Workers</span>
+				<span class="page-footer-dot" aria-hidden="true">·</span>
+				<a class="page-footer-link" href={LINKS.docs}>Worker Previews docs</a>
+				<span class="page-footer-dot" aria-hidden="true">·</span>
+				<a class="page-footer-link" href={LINKS.blog}>Announcement post</a>
+			</div>
+		</footer>
+	</body>
+</html>
